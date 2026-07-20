@@ -42,7 +42,7 @@
 				font-size: 20px !important;
 			}
             #newline {
-                color: #99ff99;
+                color: #ff9999;
             }
             #quotations {
                 color: #ff9999;
@@ -50,6 +50,25 @@
 			#buttons {
 				margin: 40px;
 			}
+            #copied
+            {
+                display: none;
+                position: absolute;
+                transform: translateY(0%);
+                text-align: center;
+                left: calc(50% - 200px);
+                width: 400px;
+                top: 100%;
+            }
+            .anim{
+                display: inline-block !important;
+                animation: uppies 1s ease-in;
+            }
+
+            @keyframes uppies {
+                0% { transform: translateY(-90px); }
+                100% { transform: translateY(0px); }
+            }
 		</style>
 		<style>
 			/* copied from https://xuerian.github.io/RoR2LanguageEditor/ sowwy !! */
@@ -125,7 +144,7 @@
 			<div>
 				<span style=""></span>
 				<p id="output">
-					im a chuckster !
+					write text into the dield below ,.., itll replace this !!
 				</p>
 			</div>
 			<textarea id="input"></textarea>
@@ -148,36 +167,64 @@
 				<button onclick="styleText('cHumanObjective')" class="cHumanObjective">cHumanObjective</button>
 				<button onclick="styleText('cLunarObjective')" class="cLunarObjective">cLunarObjective</button>
 				<br><br>
-				<button onclick="undo()" style="color: #eeeeee">undo</button>
-                <button onclick="newline()" id="newline">new line is new line? (for log formatting( uses \n when false instead</button>
-                <button onclick="quotationsfunc()" id="quotations">use " in color tags ? (eg. style="cIsDamage" vs style=cIsDamage</button>
-                <button onclick="example()" id="example">example item desc (coffee bag ss2 !!</button>
-                <button onclick="newlineconverter()" id="newlineconverter">convert real new lines to /n !!!</button>
+				<button onclick="undo()" style="color: #eeeeee">undo</button><br>
+                <button onclick="newline()" id="newline">use \n for newlines?</button><br>
+                <button onclick="quotationsfunc()" id="quotations">use " in color tags ? (eg. style="cIsDamage" vs style=cIsDamage</button><br>
+                <button onclick="example()" id="example">example item desc (coffee bag ss2 !!</button><br><br>
+                <button onclick="newlineconverter()" id="newlineconverter">convert real new lines to \n !!!</button> <br>
+                <button onclick="newlineconverterback()" id="newlineconverterback">convert \n to real new lines !!!</button> <br>
+                <button onclick="quoteconverter()" id="quoteconverter">convert " to \" (needed for ingame .,,.</button> <br>
 			</div>
 			<div>
 				<p>
 					select something in the dialog box then click one of the buttons above to style it!!!!!<br>
+                    game uses textmeshpro to render text ,,.,. <a href="https://docs.unity3d.com/Packages/com.unity.textmeshpro@4.0/manual/RichTextSupportedTags.html" target="_blank">list of supported tags for those</a> !! !
 				</p>
 			</div>
+            <div id="buttons">
+                <button onclick="share()" id="share">copy share link to clipboar d.,.,</button>
+            </div>
+            <p id="copied">
+                copied url to clipboard !!!
+            </p>
 		</div>
 		<script>
 			let historyarray = [];
             let newlineisnewline = true;
             let quotations = false;
+
+            let text = document.getElementById('input');
+            let output = document.getElementById('output');
+
             function example(){
-                var text = document.getElementById('input');
                 text.value = "<style=cIsDamage>8%</style> chance on hit to drop a coffee bean that grants <style=cIsDamage>8% attack speed</style> and <style=cIsUtility>movement speed</style> for <style=cIsUtility>5</style> <style=cStack>(+5 per stack)</style> <style=cIsUtility>seconds</style>.";
                 formattext();
             }
 
             function newlineconverter(){
-                var text = document.getElementById('input');
                 text.value = text.value.replaceAll("\n", "\\n");
+                if(newlineisnewline)
+                {
+                    newline();
+                }
                 formattext();
             }
-			function styleText(string) {
-				var text = document.getElementById('input');
 
+            function newlineconverterback(){
+                text.value = text.value.replaceAll("\\n", "\n");
+                if(!newlineisnewline)
+                {
+                    newline();
+                }
+                formattext();
+            }
+
+            function quoteconverter()
+            {
+                text.value = text.value.replaceAll("\"", "\"");
+            }
+
+			function styleText(string) {
 				var selection = text.value.substring(input.selectionStart, input.selectionEnd);
 				var preselection = text.value.substring(0, input.selectionStart);
 				var postselection = text.value.substring(input.selectionEnd, text.value.length);
@@ -199,20 +246,20 @@
 				}
 				console.log(historyarray);
 			}
-			document.getElementById('input').addEventListener('input', function (event) {
+
+			text.addEventListener('input', function (event) {
 				formattext()
-				var text = document.getElementById('input');
 
 				if(historyarray[historyarray.length - 1] !== text.value || historyarray.length === 0){
 					historyarray.push(text.value);
 				}
 				console.log(historyarray);
-
 			});
+
             function newline(){
                 var text = document.getElementById('newline');
                 newlineisnewline = !newlineisnewline;
-                if(newlineisnewline)
+                if(!newlineisnewline)
                     text.style.color = "#99ff99";
                 else
                     text.style.color = "#ff9999";
@@ -231,74 +278,27 @@
                 formattext()
             }
 
-			function formattext(){
-				var output = document.getElementById('output');
-				var text = document.getElementById('input');
+			function formattext() {
+                var newtext = text.value
 
-				var newtext = text.value
-				let count = 0;
-
-                while (newtext.search("</style>") !== -1) {
-                    newtext = newtext.replace("</style>", "</span>");
-                    count++;
-                    if(count > 3000){
-                        alert("infinite loop while formatting text (close style tag,.,.., oops !!");
-                        return;
-                    }
+                newtext = newtext.replaceAll("</style>", "</span>");
+                newtext = newtext.replaceAll("</color>", "</span>");
+                newtext = newtext.replaceAll("<style", "<span class");
+                newtext = newtext.replaceAll("<color=", "<span style=color:");
+                newtext = newtext.replaceAll("\\\"", "\"");
+                if (newlineisnewline)
+                {
+                    newtext = newtext.replaceAll("\n", "<br>");
                 }
-                while (newtext.search("</color>") !== -1) {
-                    newtext = newtext.replace("</color>", "</span>");
-                    count++;
-                    if(count > 3000){
-                        alert("infinite loop while formatting text (close style tag,.,.., oops !!");
-                        return;
-                    }
+                else
+                {
+                    newtext = newtext.replaceAll("\\n", "<br>");
                 }
-                while (newtext.search("<style") !== -1) {
-                    console.log(newtext.search("\"<style"));
-                    newtext = newtext.replace("<style", "<span class");
-                    count++;
-                    if(count > 3000){
-                        alert("infinite loop while formatting text (open style tag,.,.., oops !!");
-                        return;
-                    }
-                }
-
-                while (newtext.search("<color=") !== -1) {
-                    console.log(newtext.search("\"<color"));
-                    newtext = newtext.replace("<color=", "<span style=color:");
-                    count++;
-                    if(count > 3000){
-                        alert("infinite loop while formatting text (open style tag,.,.., oops !!");
-                        return;
-                    }
-                }
-				if(newlineisnewline)
-					while (newtext.search("\n") !== -1) {
-						console.log(newtext.search("\n"));
-						newtext = newtext.replace("\n", "<br>");
-						count++;
-						if(count > 3000){
-							alert("infinite loop while formatting text (new line,.,.., oops !!");
-							return;
-						}
-					}
-				else
-					while (newtext.indexOf("\\n") !== -1) {
-						newtext = newtext.replace("\\n", "<br>");
-						count++;
-						if(count > 3000){
-							alert("infinite loop while formatting text (new line \\n,.,.., oops !!");
-							return;
-						}
-					}
 
 				output.innerHTML = newtext;
 			}
 
 			function undo(){
-				var text = document.getElementById('input');
-				console.log(historyarray);
 				if (historyarray.length === 1) {
 					return;
 				}
@@ -306,6 +306,39 @@
 				historyarray.pop()
 				formattext()
 			}
-		</script>
+
+            const url = new URL(location.href);
+            const sharedText = url.searchParams.get('text');
+            const sharedNewline = url.searchParams.get('newline');
+            if(sharedText !== undefined && sharedText !== null)
+            {
+                output.innerHTML = sharedText;
+                text.value = sharedText;
+                formattext();
+            }
+            if(sharedNewline !== undefined && sharedNewline !== null)
+            {
+                newline();
+
+                formattext();
+            }
+
+            function share()
+            {
+                var params = new URLSearchParams({ text: text.value });
+                var url = `https://icebro.party/ror2helper/?${params.toString()}`;
+                if(!newlineisnewline)
+                {
+                    params = new URLSearchParams({ newline: newlineisnewline.toString() });
+                    url += `&${params.toString()}`;
+                }
+
+                console.log(url);
+                navigator.clipboard.writeText(url);
+                document.getElementById("copied").classList.remove("anim");
+                document.getElementById("copied").classList.add("anim");
+                setTimeout(function(){ document.getElementById("copied").classList.remove("anim"); }, 1000)
+            }
+        </script>
 	</body>
 </html>
