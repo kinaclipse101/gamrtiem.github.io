@@ -5,7 +5,8 @@
 		<script>
 			if(parent.myIframe === undefined){
 				//alert("sdgojnskfjghbdfjkgn");
-				window.location.replace("../index.html#ror2helper");
+                const url = new URL(location.href);
+                window.location.replace("../index.html#ror2helper?" + url.searchParams);
 			}
 			parent.document.title = 'risk of rain 2 lang helper !!!!!';
 			parent.history.replaceState('data to be passed', 'Title of the page', '/ror2helper');
