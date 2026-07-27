@@ -65,6 +65,11 @@
                 display: inline-block !important;
                 animation: uppies 1s ease-in;
             }
+            sub {
+                font-size: 50%;
+                position: relative;
+                top: -2px;
+            }
 
             @keyframes uppies {
                 0% { transform: translateY(-90px); }
@@ -305,8 +310,10 @@
 
                 newtext = newtext.replaceAll("</style>", "</span>");
                 newtext = newtext.replaceAll("</color>", "</span>");
+                newtext = newtext.replaceAll("</size>", "</span>");
                 newtext = newtext.replaceAll("<style", "<span class");
                 newtext = newtext.replaceAll("<color=", "<span style=color:");
+                newtext = newtext.replaceAll("<size=", "<span style=font-size:");
 
 				output.innerHTML = newtext;
 			}
