@@ -296,6 +296,9 @@
                     newtext = newtext.replaceAll("\\n", "<br>");
                 }
 
+                newtext = newtext.replaceAll("&nbsp;", "&amp;nbsp;");
+                newtext = newtext.replaceAll(" ", "&nbsp;");
+
 				output.innerHTML = newtext;
 			}
 
