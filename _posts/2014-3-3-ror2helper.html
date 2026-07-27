@@ -175,6 +175,7 @@
                 <button onclick="newlineconverter()" id="newlineconverter">convert real new lines to \n !!!</button> <br>
                 <button onclick="newlineconverterback()" id="newlineconverterback">convert \n to real new lines !!!</button> <br>
                 <button onclick="quoteconverter()" id="quoteconverter">convert " to \" (needed for ingame .,,.</button> <br>
+                <button onclick="nbspconverter()" id="nbspconverter">convert "&ampnbsp;" to " "</button> <br>
 			</div>
 			<div>
 				<p>
@@ -223,6 +224,13 @@
             function quoteconverter()
             {
                 text.value = text.value.replaceAll("\"", "\\\"");
+                formattext()
+            }
+
+            function nbspconverter()
+            {
+                text.value = text.value.replaceAll("&nbsp;", " ");
+                formattext()
             }
 
 			function styleText(string) {
@@ -282,10 +290,6 @@
 			function formattext() {
                 var newtext = text.value
 
-                newtext = newtext.replaceAll("</style>", "</span>");
-                newtext = newtext.replaceAll("</color>", "</span>");
-                newtext = newtext.replaceAll("<style", "<span class");
-                newtext = newtext.replaceAll("<color=", "<span style=color:");
                 newtext = newtext.replaceAll("\\\"", "\"");
                 if (newlineisnewline)
                 {
@@ -298,6 +302,11 @@
 
                 newtext = newtext.replaceAll("&nbsp;", "&amp;nbsp;");
                 newtext = newtext.replaceAll(" ", "&nbsp;");
+
+                newtext = newtext.replaceAll("</style>", "</span>");
+                newtext = newtext.replaceAll("</color>", "</span>");
+                newtext = newtext.replaceAll("<style", "<span class");
+                newtext = newtext.replaceAll("<color=", "<span style=color:");
 
 				output.innerHTML = newtext;
 			}
