@@ -11,7 +11,7 @@
 			parent.document.title = 'risk of rain 2 lang helper !!!!!';
 			parent.history.replaceState('data to be passed', 'Title of the page', '/ror2helper');
 		</script>
-
+        
 		<meta name="darkreader-lock">
 		<link rel="icon" type="image/x-icon" href="https://github.com/gamrtiem/gamrtiem.github.io/blob/master/images/bleh.gif?raw=true">
 		<link rel="stylesheet" href="../css/style.css">
@@ -182,6 +182,12 @@
                 <button onclick="quoteconverter()" id="quoteconverter">convert " to \" (needed for ingame .,,.</button> <br>
                 <button onclick="nbspconverter()" id="nbspconverter">convert "&ampnbsp;" to " "</button> <br>
 			</div>
+            <div id="buttons">
+                <textarea id="find">find text .,,.</textarea>
+                <textarea id="replace">replace text .,,.</textarea>
+                <button onclick="findandreplace()" id="findandreplace">apply find and replace .,,.</button> <br>
+            </div>
+
 			<div>
 				<p>
 					select something in the dialog box then click one of the buttons above to style it!!!!!<br>
@@ -235,6 +241,15 @@
             function nbspconverter()
             {
                 text.value = text.value.replaceAll("&nbsp;", " ");
+                formattext()
+            }
+
+            function findandreplace()
+            {
+                let find = document.getElementById('find');
+                let replace = document.getElementById('replace');
+
+                text.value = text.value.replaceAll(find.value, replace.value);
                 formattext()
             }
 
