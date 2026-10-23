@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="../css/loading.css">
-		<!--script>
+		<script>
 			if(parent.myIframe === undefined){
 				//alert("sdgojnskfjghbdfjkgn");
                 const url = new URL(location.href);
@@ -10,7 +10,7 @@
 			}
 			parent.document.title = 'risk of rain 2 lang helper !!!!!';
 			parent.history.replaceState('data to be passed', 'Title of the page', '/ror2helper');
-		</script-->
+		</script>
         
 		<meta name="darkreader-lock">
 		<link rel="icon" type="image/x-icon" href="https://github.com/gamrtiem/gamrtiem.github.io/blob/master/images/bleh.gif?raw=true">
@@ -202,6 +202,7 @@
 				<button onclick="styleText('cIsCursed')" class="cIsCursed">cIsCursed</button>
 				<button onclick="styleText('cIsTemporary')" class="cIsTemporary">cIsTemporary</button>
 				<button onclick="styleText('cIsRental')" class="cIsRental">cIsRental</button>
+				<button onclick="styleText('cKeywordName')" class="cKeywordName">cKeywordName</button>
 				<br><br>
 				<button onclick="undo()" style="color: #eeeeee">undo</button><br>
                 <button onclick="newline()" id="newline">use \n for newlines?</button><br>
@@ -290,13 +291,15 @@
 				console.log(selection);
 
 				if(selection !== ""){
-                    if(quotations){
-                        text.value = preselection + "<style=\"" + string + "\">" + selection + "</style>" + postselection;
-                    }
-                    else
-                    {
-                        text.value = preselection + "<style=" + string + ">" + selection + "</style>" + postselection;
-                    }
+					if(quotations)
+					{
+						text.value = preselection + "<style=\"" + string + "\">" + selection + "</style>" + postselection;
+					}
+					else
+					{
+						text.value = preselection + "<style=" + string + ">" + selection + "</style>" + postselection;
+					}
+
 					formattext()
 				}
 
@@ -353,7 +356,10 @@
                 newtext = newtext.replaceAll("&nbsp;", "&amp;nbsp;");
                 newtext = newtext.replaceAll(" ", "&nbsp;");
 
-                newtext = newtext.replaceAll("</style>", "</span>");
+				const pattern = /<style=cKeywordName>(.*?)<\/style>/g;
+				newtext = newtext.replace(pattern, "<span style='font-weight: bold'>[ $1 ]</span>");
+
+				newtext = newtext.replaceAll("</style>", "</span>");
                 newtext = newtext.replaceAll("</color>", "</span>");
                 newtext = newtext.replaceAll("</size>", "</span>");
                 newtext = newtext.replaceAll("<style", "<span class");
