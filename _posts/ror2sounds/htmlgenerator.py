@@ -1,8 +1,8 @@
 from os import listdir
 from os.path import isfile, join
 
-filedir = "/run/media/icebrah/buh/SteamLibrary/steamapps/common/Risk of Rain 2/Risk of Rain 2_Data/StreamingAssets/Audio/GeneratedSoundBanks/Windows/"
-outputdir = "/run/media/icebrah/buh/SteamLibrary/steamapps/common/Risk of Rain 2/Risk of Rain 2_Data/StreamingAssets/Audio/GeneratedSoundBanks/test/"
+filedir = "/home/kina/.local/share/Steam/steamapps/common/Risk of Rain 2/Risk of Rain 2_Data/StreamingAssets/Audio/GeneratedSoundBanks/Windows/"
+outputdir = "/home/kina/Documents/github/gamrtiem.github.io/_posts/ror2sounds/"
 onlyfiles = [f for f in listdir(filedir) if isfile(join(filedir, f))]
 
 txtfiles = []

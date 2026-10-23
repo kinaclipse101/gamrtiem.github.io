@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="../css/loading.css">
-		<script>
+		<!--script>
 			if(parent.myIframe === undefined){
 				//alert("sdgojnskfjghbdfjkgn");
                 const url = new URL(location.href);
@@ -10,7 +10,7 @@
 			}
 			parent.document.title = 'risk of rain 2 lang helper !!!!!';
 			parent.history.replaceState('data to be passed', 'Title of the page', '/ror2helper');
-		</script>
+		</script-->
         
 		<meta name="darkreader-lock">
 		<link rel="icon" type="image/x-icon" href="https://github.com/gamrtiem/gamrtiem.github.io/blob/master/images/bleh.gif?raw=true">
@@ -143,6 +143,30 @@
 			.cLunarObjective {
 				color: #b2b8ee;
 			}
+
+			.cKeyBinding {
+				color: #ffff00;
+			}
+
+			.cIsLunar {
+				color: #b8c4ff;
+			}
+
+			.cIsTierBoss {
+				color: #ffeb04;
+			}
+
+			.cIsCursed {
+				color: #048501;
+			}
+
+			.cIsTemporary {
+				color: #8bc7d5;
+			}
+
+			.cIsRental {
+				color: #fbd88b;
+			}
 		</style>
 	</head>
 	<body>
@@ -172,6 +196,12 @@
 				<button onclick="styleText('cEvent')" class="cEvent">cEvent</button>
 				<button onclick="styleText('cHumanObjective')" class="cHumanObjective">cHumanObjective</button>
 				<button onclick="styleText('cLunarObjective')" class="cLunarObjective">cLunarObjective</button>
+				<button onclick="styleText('cKeyBinding')" class="cKeyBinding">cKeyBinding</button>
+				<button onclick="styleText('cIsLunar')" class="cIsLunar">cIsLunar</button>
+				<button onclick="styleText('cIsTierBoss')" class="cIsTierBoss">cIsTierBoss</button>
+				<button onclick="styleText('cIsCursed')" class="cIsCursed">cIsCursed</button>
+				<button onclick="styleText('cIsTemporary')" class="cIsTemporary">cIsTemporary</button>
+				<button onclick="styleText('cIsRental')" class="cIsRental">cIsRental</button>
 				<br><br>
 				<button onclick="undo()" style="color: #eeeeee">undo</button><br>
                 <button onclick="newline()" id="newline">use \n for newlines?</button><br>
